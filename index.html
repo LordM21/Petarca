@@ -1,0 +1,2370 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Francesco Petrarca — Architetto dell'Interiorità</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg: #f4f4f0;
+            --bg-light: #eaeae6;
+            --accent: #2d6b15;
+            --accent-dim: rgba(45, 107, 21, 0.07);
+            --accent-glow: rgba(45, 107, 21, 0.18);
+            --text: #1a1a1a;
+            --text-muted: #4a4a45;
+            --border: rgba(0, 0, 0, 0.1);
+            --serif: 'Playfair Display', Georgia, serif;
+            --serif2: 'Inter', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            --mono: 'Space Mono', monospace;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: var(--serif2);
+            font-size: 1.08rem;
+            line-height: 1.75;
+            overflow-x: hidden;
+            cursor: auto;
+        }
+
+        /* CUSTOM CURSOR — DISABLED */
+        .cursor, .cursor-ring { display: none; }
+
+        /* NOISE OVERLAY */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+            opacity: .06;
+        }
+
+        /* NAV */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.2rem 3rem;
+            border-bottom: 1px solid var(--border);
+            background: rgba(244, 244, 240, 0.92);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+        }
+
+        .nav-logo {
+            font-family: var(--mono);
+            font-size: .75rem;
+            letter-spacing: .18em;
+            color: var(--accent);
+            text-transform: uppercase;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            font-family: var(--mono);
+            font-size: .7rem;
+            letter-spacing: .14em;
+            color: var(--text-muted);
+            text-decoration: none;
+            text-transform: uppercase;
+            transition: color .25s;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -3px;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: var(--accent);
+            transform: scaleX(0);
+            transition: transform .3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+
+        .nav-links a:hover::after {
+            transform: scaleX(1);
+        }
+
+        /* HERO */
+        #hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            padding: 6rem 2rem 4rem;
+        }
+
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse 80% 60% at 30% 50%, rgba(45, 107, 21, 0.04) 0%, transparent 65%),
+                radial-gradient(ellipse 50% 80% at 75% 20%, rgba(45, 107, 21, 0.03) 0%, transparent 60%);
+        }
+
+        .hero-lines {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            background-image: repeating-linear-gradient(0deg, transparent, transparent 79px, rgba(45, 107, 21, 0.04) 80px);
+        }
+
+        .hero-inner {
+            position: relative;
+            z-index: 1;
+            max-width: 1100px;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .hero-year {
+            font-family: var(--mono);
+            font-size: .7rem;
+            letter-spacing: .25em;
+            color: var(--accent);
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            animation: fadeUp .8s .3s forwards;
+        }
+
+        .hero-title {
+            font-family: var(--serif);
+            font-size: clamp(2.4rem, 4.5vw, 3.8rem);
+            font-weight: 900;
+            line-height: 1.1;
+            color: var(--accent);
+            opacity: 0;
+            animation: fadeUp .9s .5s forwards;
+        }
+
+        .hero-title em {
+            font-style: normal;
+            color: var(--text);
+            display: block;
+        }
+
+        .hero-subtitle {
+            font-family: var(--serif2);
+            font-size: 1.05rem;
+            font-weight: 400;
+            font-style: normal;
+            color: var(--text-muted);
+            margin-top: 1.5rem;
+            line-height: 1.85;
+            opacity: 0;
+            animation: fadeUp .9s .7s forwards;
+        }
+
+        .hero-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: .8rem;
+            margin-top: 2.5rem;
+            padding: .85rem 2rem;
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            font-family: var(--mono);
+            font-size: .72rem;
+            letter-spacing: .16em;
+            text-decoration: none;
+            text-transform: uppercase;
+            transition: background .3s, color .3s;
+            opacity: 0;
+            animation: fadeUp .9s .9s forwards;
+        }
+
+        .hero-cta:hover {
+            background: var(--accent);
+            color: var(--bg);
+        }
+
+        .hero-right {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            opacity: 0;
+            animation: fadeIn 1.2s 1s forwards;
+        }
+
+        .hero-stat {
+            border: 1px solid var(--border);
+            padding: 1.2rem 1.5rem;
+            background: rgba(45, 107, 21, 0.04);
+            backdrop-filter: blur(6px);
+            transition: border-color .3s, background .3s;
+        }
+
+        .hero-stat:hover {
+            border-color: var(--accent);
+            background: var(--accent-dim);
+        }
+
+        .hero-stat-num {
+            font-family: var(--serif);
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: var(--accent);
+            line-height: 1;
+        }
+
+        .hero-stat-label {
+            font-family: var(--mono);
+            font-size: .68rem;
+            letter-spacing: .14em;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            margin-top: .3rem;
+        }
+
+        /* SECTIONS */
+        section {
+            position: relative;
+            z-index: 1;
+        }
+
+        .section-wrap {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 6rem 2rem;
+        }
+
+        .section-label {
+            font-family: var(--mono);
+            font-size: .68rem;
+            letter-spacing: .28em;
+            color: var(--accent);
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .section-label::before {
+            content: '';
+            display: block;
+            width: 2.5rem;
+            height: 1px;
+            background: var(--accent);
+        }
+
+        .section-title {
+            font-family: var(--serif);
+            font-size: clamp(2rem, 4vw, 3.2rem);
+            font-weight: 700;
+            color: var(--text);
+            line-height: 1.2;
+            margin-bottom: 3rem;
+        }
+
+        .section-title span {
+            color: var(--accent);
+        }
+
+        .divider {
+            width: 100%;
+            height: 1px;
+            background: var(--border);
+            margin: 0;
+        }
+
+        /* BIOGRAPHY TIMELINE */
+        #biografia {
+            background: linear-gradient(180deg, var(--bg) 0%, #edede8 100%);
+        }
+
+        .bio-intro {
+            font-size: 1.08rem;
+            font-style: normal;
+            font-weight: 400;
+            color: var(--text-muted);
+            max-width: 680px;
+            margin-bottom: 4rem;
+            border-left: 3px solid var(--accent);
+            padding-left: 1.5rem;
+            line-height: 1.9;
+        }
+
+        .timeline {
+            position: relative;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 1px;
+            background: var(--border);
+        }
+
+        .tl-item {
+            display: grid;
+            grid-template-columns: 140px 1fr;
+            gap: 2rem;
+            padding: 2rem 0 2rem 2rem;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+            position: relative;
+            opacity: 0;
+            transform: translateX(-20px);
+            transition: opacity .6s, transform .6s;
+        }
+
+        .tl-item.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .tl-item::before {
+            content: '';
+            position: absolute;
+            left: -4px;
+            top: 2.4rem;
+            width: 9px;
+            height: 9px;
+            background: var(--bg);
+            border: 1px solid var(--accent);
+            border-radius: 50%;
+        }
+
+        .tl-year {
+            font-family: var(--mono);
+            font-size: .8rem;
+            color: var(--accent);
+            padding-top: .2rem;
+            letter-spacing: .08em;
+        }
+
+        .tl-place {
+            font-family: var(--mono);
+            font-size: .65rem;
+            color: var(--text-muted);
+            letter-spacing: .1em;
+            text-transform: uppercase;
+            margin-top: .3rem;
+        }
+
+        .tl-content h3 {
+            font-family: var(--serif);
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: .4rem;
+        }
+
+        .tl-content p {
+            font-size: .98rem;
+            color: var(--text-muted);
+            line-height: 1.8;
+        }
+
+        /* OPERE LATINE */
+        #opere {
+            background: var(--bg);
+        }
+
+        .opere-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5px;
+            border: 1.5px solid var(--border);
+        }
+
+        .opera-card {
+            border: 1.5px solid var(--border);
+            padding: 2rem;
+            background: rgba(45, 107, 21, 0.02);
+            transition: background .3s, border-color .3s;
+            cursor: default;
+        }
+
+        .opera-card:hover {
+            background: var(--accent-dim);
+            border-color: var(--accent);
+        }
+
+        .opera-tipo {
+            font-family: var(--mono);
+            font-size: .62rem;
+            letter-spacing: .2em;
+            color: var(--accent);
+            text-transform: uppercase;
+            margin-bottom: .8rem;
+        }
+
+        .opera-nome {
+            font-family: var(--serif);
+            font-size: 1.3rem;
+            font-weight: 700;
+            font-style: italic;
+            color: var(--text);
+            margin-bottom: .6rem;
+        }
+
+        .opera-desc {
+            font-size: .93rem;
+            color: var(--text-muted);
+            line-height: 1.75;
+        }
+
+        /* SECRETUM */
+        #secretum {
+            background: linear-gradient(135deg, #edede8 0%, var(--bg) 100%);
+            overflow: hidden;
+        }
+
+        .secretum-glass {
+            background: rgba(45, 107, 21, 0.03);
+            border: 1px solid var(--border);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding: 3rem;
+            position: relative;
+        }
+
+        .secretum-glass::before {
+            content: '"';
+            position: absolute;
+            top: -.5rem;
+            left: 1.5rem;
+            font-family: var(--serif);
+            font-size: 8rem;
+            color: var(--accent);
+            opacity: .06;
+            line-height: 1;
+            pointer-events: none;
+        }
+
+        .dialog-container {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .dialog-block {
+            display: grid;
+            grid-template-columns: 120px 1fr;
+            gap: 1.5rem;
+            align-items: start;
+            opacity: 0;
+            transform: translateY(15px);
+            transition: opacity .5s, transform .5s;
+        }
+
+        .dialog-block.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .dialog-speaker {
+            font-family: var(--mono);
+            font-size: .7rem;
+            letter-spacing: .14em;
+            text-transform: uppercase;
+            padding-top: .2rem;
+            border-right: 1px solid var(--border);
+            padding-right: 1rem;
+        }
+
+        .dialog-speaker.agostino {
+            color: var(--accent);
+        }
+
+        .dialog-speaker.francesco {
+            color: var(--text-muted);
+        }
+
+        .dialog-text {
+            font-family: var(--serif2);
+            font-size: 1rem;
+            font-style: normal;
+            color: var(--text);
+            line-height: 1.9;
+        }
+
+        .secretum-analysis {
+            margin-top: 3rem;
+            padding: 2rem;
+            border-left: 3px solid var(--accent);
+            background: rgba(45, 107, 21, 0.03);
+        }
+
+        .secretum-analysis h4 {
+            font-family: var(--mono);
+            font-size: .72rem;
+            letter-spacing: .18em;
+            color: var(--accent);
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        .secretum-analysis p {
+            font-size: .97rem;
+            color: var(--text-muted);
+            line-height: 1.85;
+        }
+
+        /* CANZONIERE */
+        #canzoniere {
+            background: var(--bg);
+        }
+
+        .canzoniere-intro {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            margin-bottom: 4rem;
+            align-items: start;
+        }
+
+        .canzoniere-intro p {
+            font-size: 1rem;
+            color: var(--text-muted);
+            line-height: 1.9;
+        }
+
+        .canzoniere-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .canz-stat {
+            border: 1px solid var(--border);
+            padding: 1.2rem;
+            text-align: center;
+            transition: border-color .3s, background .3s;
+        }
+
+        .canz-stat:hover {
+            border-color: var(--accent);
+            background: var(--accent-dim);
+        }
+
+        .canz-stat-n {
+            font-family: var(--serif);
+            font-size: 2.2rem;
+            font-weight: 900;
+            color: var(--accent);
+        }
+
+        .canz-stat-l {
+            font-family: var(--mono);
+            font-size: .62rem;
+            letter-spacing: .14em;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            margin-top: .3rem;
+        }
+
+        /* SONETTI */
+        .sonetto-tabs {
+            display: flex;
+            gap: 0;
+            margin-bottom: 0;
+            border-bottom: 1px solid var(--border);
+            overflow-x: auto;
+        }
+
+        .tab-btn {
+            font-family: var(--mono);
+            font-size: .68rem;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            padding: .85rem 1.5rem;
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: color .25s, background .25s;
+            white-space: nowrap;
+            border-bottom: 2px solid transparent;
+            position: relative;
+            bottom: -1px;
+        }
+
+        .tab-btn.active {
+            color: var(--accent);
+            border-bottom-color: var(--accent);
+        }
+
+        .tab-btn:hover {
+            color: var(--text);
+            background: rgba(45, 107, 21, 0.04);
+        }
+
+        .sonetto-panel {
+            display: none;
+        }
+
+        .sonetto-panel.active {
+            display: block;
+        }
+
+        .sonetto-card {
+            border: 1px solid var(--border);
+            margin-top: 0;
+            background: rgba(45, 107, 21, 0.02);
+        }
+
+        .sonetto-header {
+            padding: 1.8rem 2rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+        }
+
+        .sonetto-num {
+            font-family: var(--mono);
+            font-size: .68rem;
+            letter-spacing: .2em;
+            color: var(--accent);
+            text-transform: uppercase;
+        }
+
+        .sonetto-title {
+            font-family: var(--serif);
+            font-size: 1.5rem;
+            font-weight: 700;
+            font-style: italic;
+            color: var(--text);
+            margin-top: .3rem;
+        }
+
+        .sonetto-body {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 0;
+        }
+
+        .sonetto-col {
+            padding: 2rem;
+            border-right: 1px solid var(--border);
+        }
+
+        .sonetto-col:last-child {
+            border-right: none;
+        }
+
+        .sonetto-col-label {
+            font-family: var(--mono);
+            font-size: .62rem;
+            letter-spacing: .2em;
+            color: var(--accent);
+            text-transform: uppercase;
+            margin-bottom: 1.2rem;
+            padding-bottom: .8rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .sonetto-text {
+            font-family: var(--serif2);
+            font-size: .98rem;
+            font-style: italic;
+            color: var(--text);
+            line-height: 2.1;
+            white-space: pre-line;
+        }
+
+        .sonetto-parafrasi {
+            font-size: .93rem;
+            color: var(--text-muted);
+            line-height: 1.85;
+        }
+
+        .sonetto-analisi {
+            font-size: .93rem;
+            color: var(--text-muted);
+            line-height: 1.85;
+        }
+
+        .analisi-tag {
+            display: inline-block;
+            font-family: var(--mono);
+            font-size: .58rem;
+            letter-spacing: .14em;
+            color: var(--bg);
+            background: var(--accent);
+            padding: .15rem .6rem;
+            margin-bottom: .6rem;
+            text-transform: uppercase;
+        }
+
+        /* MONTE VENTOSO */
+        #ventoso {
+            background: linear-gradient(180deg, var(--bg) 0%, #edede8 100%);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .ventoso-bg {
+            position: absolute;
+            right: -100px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-family: var(--serif);
+            font-size: 18rem;
+            font-weight: 900;
+            color: rgba(45, 107, 21, 0.04);
+            line-height: 1;
+            pointer-events: none;
+            white-space: nowrap;
+        }
+
+        .ventoso-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 5rem;
+            align-items: start;
+        }
+
+        .ventoso-quote {
+            font-family: var(--serif);
+            font-size: 1.3rem;
+            font-style: normal;
+            font-weight: 500;
+            line-height: 1.8;
+            color: var(--text);
+            border-left: 3px solid var(--accent);
+            padding-left: 2rem;
+            margin: 2rem 0;
+        }
+
+        .ventoso-quote cite {
+            display: block;
+            margin-top: .8rem;
+            font-family: var(--mono);
+            font-size: .65rem;
+            letter-spacing: .14em;
+            color: var(--accent);
+            text-transform: uppercase;
+            font-style: normal;
+        }
+
+        .ventoso-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .vstep {
+            display: flex;
+            gap: 1.2rem;
+            align-items: start;
+            padding: 1.2rem;
+            border: 1px solid var(--border);
+            transition: border-color .3s, background .3s;
+        }
+
+        .vstep:hover {
+            border-color: var(--accent);
+            background: var(--accent-dim);
+        }
+
+        .vstep-n {
+            font-family: var(--serif);
+            font-size: 2rem;
+            font-weight: 900;
+            color: var(--accent);
+            opacity: .4;
+            line-height: 1;
+            flex-shrink: 0;
+            min-width: 2.5rem;
+        }
+
+        .vstep-text h4 {
+            font-family: var(--serif);
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: .3rem;
+        }
+
+        .vstep-text p {
+            font-size: .9rem;
+            color: var(--text-muted);
+            line-height: 1.75;
+        }
+
+        /* BOCCACCIO */
+        #boccaccio {
+            background: var(--bg);
+        }
+
+        .duo-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+        }
+
+        .duo-card {
+            border: 1px solid var(--border);
+            padding: 2.5rem;
+            background: rgba(45, 107, 21, 0.02);
+            transition: background .3s, border-color .3s;
+            position: relative;
+        }
+
+        .duo-card:hover {
+            background: var(--accent-dim);
+            border-color: var(--accent);
+        }
+
+        .duo-card-num {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            font-family: var(--serif);
+            font-size: 4rem;
+            font-weight: 900;
+            color: rgba(45, 107, 21, 0.08);
+            line-height: 1;
+        }
+
+        .duo-name {
+            font-family: var(--serif);
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+        }
+
+        .duo-row {
+            display: flex;
+            flex-direction: column;
+            gap: .8rem;
+        }
+
+        .duo-item {
+            display: grid;
+            grid-template-columns: 110px 1fr;
+            gap: .8rem;
+            padding-bottom: .8rem;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+        }
+
+        .duo-item:last-child {
+            border-bottom: none;
+        }
+
+        .duo-key {
+            font-family: var(--mono);
+            font-size: .62rem;
+            letter-spacing: .12em;
+            color: var(--accent);
+            text-transform: uppercase;
+            padding-top: .1rem;
+        }
+
+        .duo-val {
+            font-size: .9rem;
+            color: var(--text-muted);
+            line-height: 1.7;
+        }
+
+        .confronto-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 3rem;
+        }
+
+        .confronto-table th {
+            font-family: var(--mono);
+            font-size: .65rem;
+            letter-spacing: .16em;
+            text-transform: uppercase;
+            color: var(--accent);
+            border-bottom: 1px solid var(--accent);
+            padding: 1rem .8rem;
+            text-align: left;
+        }
+
+        .confronto-table td {
+            padding: 1rem .8rem;
+            border-bottom: 1px solid var(--border);
+            font-size: .92rem;
+            color: var(--text-muted);
+            vertical-align: top;
+            line-height: 1.7;
+        }
+
+        .confronto-table td:first-child {
+            font-family: var(--serif);
+            font-weight: 700;
+            color: var(--text);
+            font-size: 1rem;
+        }
+
+        .confronto-table tr:hover td {
+            background: rgba(45, 107, 21, 0.04);
+        }
+
+        /* EREDITÀ */
+        #eredita {
+            background: linear-gradient(135deg, #edede8 0%, var(--bg) 100%);
+            text-align: center;
+        }
+
+        .eredita-quote {
+            font-family: var(--serif);
+            font-size: clamp(1.2rem, 2.5vw, 1.7rem);
+            font-style: normal;
+            font-weight: 500;
+            max-width: 760px;
+            margin: 0 auto;
+            color: var(--text);
+            line-height: 1.8;
+        }
+
+        .eredita-quote strong {
+            color: var(--accent);
+            font-weight: 700;
+        }
+
+        .eredita-date {
+            font-family: var(--mono);
+            font-size: .72rem;
+            letter-spacing: .22em;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            margin-top: 3rem;
+        }
+
+        .eredita-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-top: 4rem;
+            text-align: left;
+        }
+
+        .eredita-card {
+            border: 1px solid var(--border);
+            padding: 2rem;
+            background: rgba(45, 107, 21, 0.02);
+            transition: background .3s, border-color .3s;
+        }
+
+        .eredita-card:hover {
+            background: var(--accent-dim);
+            border-color: var(--accent);
+        }
+
+        .eredita-card h4 {
+            font-family: var(--serif);
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: .8rem;
+        }
+
+        .eredita-card p {
+            font-size: .9rem;
+            color: var(--text-muted);
+            line-height: 1.8;
+        }
+
+        /* FOOTER */
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 2rem 3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #eaeae6;
+        }
+
+        footer p {
+            font-family: var(--mono);
+            font-size: .65rem;
+            letter-spacing: .12em;
+            color: var(--text-muted);
+        }
+
+        footer span {
+            color: var(--accent);
+        }
+
+        /* SCROLLBAR */
+        ::-webkit-scrollbar {
+            width: 3px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--accent);
+        }
+
+        /* ANIMATIONS */
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(24px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes floatLine {
+
+            0%,
+            100% {
+                transform: scaleX(1);
+            }
+
+            50% {
+                transform: scaleX(1.05);
+            }
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity .7s ease, transform .7s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* PROGRESS BAR */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 2px;
+            z-index: 200;
+            background: var(--accent);
+            transform-origin: left;
+            transform: scaleX(0);
+            transition: transform .05s;
+        }
+
+        /* STRUTTURA SONETTO */
+        .sonetto-struttura {
+            margin-bottom: 4rem;
+        }
+
+        .struttura-grid {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 0;
+            margin-top: 2rem;
+        }
+
+        .struttura-part {
+            padding: 2.5rem;
+            border: 1px solid var(--border);
+            background: rgba(45, 107, 21, 0.02);
+            position: relative;
+            transition: background .3s, border-color .3s;
+        }
+
+        .struttura-part:hover {
+            background: var(--accent-dim);
+            border-color: var(--accent);
+        }
+
+        .struttura-part-label {
+            font-family: var(--mono);
+            font-size: .6rem;
+            letter-spacing: .22em;
+            color: var(--accent);
+            text-transform: uppercase;
+            margin-bottom: .5rem;
+        }
+
+        .struttura-part-title {
+            font-family: var(--serif);
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: .5rem;
+        }
+
+        .struttura-part-schema {
+            font-family: var(--mono);
+            font-size: .82rem;
+            color: var(--accent);
+            margin-bottom: 1rem;
+            opacity: .65;
+            letter-spacing: .08em;
+        }
+
+        .struttura-part p {
+            font-size: .93rem;
+            color: var(--text-muted);
+            line-height: 1.85;
+        }
+
+        .struttura-part p strong {
+            color: var(--text);
+            font-weight: 600;
+        }
+
+        .volta-divider {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 0 .6rem;
+            position: relative;
+        }
+
+        .volta-line {
+            width: 1px;
+            flex: 1;
+            background: linear-gradient(to bottom, transparent, var(--accent), transparent);
+            opacity: .5;
+        }
+
+        .volta-label {
+            font-family: var(--mono);
+            font-size: .58rem;
+            letter-spacing: .2em;
+            color: var(--accent);
+            text-transform: uppercase;
+            writing-mode: vertical-lr;
+            transform: rotate(180deg);
+            padding: .8rem 0;
+            white-space: nowrap;
+        }
+
+        .volta-note {
+            margin-top: 2rem;
+            padding: 1.8rem 2rem;
+            border: 1px solid var(--border);
+            border-left: 3px solid var(--accent);
+            background: rgba(45, 107, 21, 0.03);
+        }
+
+        .volta-note p {
+            font-size: .93rem;
+            color: var(--text-muted);
+            line-height: 1.85;
+        }
+
+        .volta-note p em {
+            color: var(--text);
+        }
+
+        /* LABOR LIMAE */
+        .labor-block {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5px;
+            margin-bottom: 4rem;
+        }
+
+        .labor-card {
+            padding: 2.5rem;
+            border: 1px solid var(--border);
+            background: rgba(45, 107, 21, 0.02);
+            position: relative;
+            overflow: hidden;
+            transition: background .3s, border-color .3s;
+        }
+
+        .labor-card:hover {
+            background: var(--accent-dim);
+            border-color: var(--accent);
+        }
+
+        .labor-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent), transparent);
+            opacity: .5;
+        }
+
+        .labor-card h4 {
+            font-family: var(--serif);
+            font-size: 1.15rem;
+            font-weight: 700;
+            font-style: italic;
+            color: var(--accent);
+            margin-bottom: .35rem;
+        }
+
+        .labor-sub {
+            font-family: var(--mono);
+            font-size: .6rem;
+            letter-spacing: .16em;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            margin-bottom: 1.2rem;
+            padding-bottom: .8rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .labor-card p {
+            font-size: .93rem;
+            color: var(--text-muted);
+            line-height: 1.85;
+        }
+
+        .labor-card p em {
+            color: var(--text);
+            font-style: italic;
+        }
+
+        /* MOBILE */
+        @media (max-width: 768px) {
+            nav {
+                padding: 1rem 1.5rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .hero-inner {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-right {
+                display: none;
+            }
+
+            .sonetto-body {
+                grid-template-columns: 1fr;
+            }
+
+            .sonetto-col {
+                border-right: none;
+                border-bottom: 1px solid var(--border);
+            }
+
+            .canzoniere-intro {
+                grid-template-columns: 1fr;
+            }
+
+            .duo-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .ventoso-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .eredita-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .tl-item {
+                grid-template-columns: 90px 1fr;
+                gap: 1rem;
+            }
+
+            .section-wrap {
+                padding: 4rem 1.2rem;
+            }
+
+            .struttura-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .volta-divider {
+                flex-direction: row;
+                padding: .5rem 0;
+            }
+
+            .volta-line {
+                height: 1px;
+                width: auto;
+                flex: 1;
+                background: linear-gradient(to right, transparent, var(--accent), transparent);
+            }
+
+            .volta-label {
+                writing-mode: horizontal-tb;
+                transform: none;
+                padding: 0 .8rem;
+            }
+
+            .labor-block {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="cursor" id="cursor"></div>
+    <div class="cursor-ring" id="cursorRing"></div>
+    <div class="progress-bar" id="progressBar"></div>
+
+    <!-- NAV -->
+    <nav>
+        <div class="nav-logo">Petrarca — 1304–1374</div>
+        <ul class="nav-links">
+            <li><a href="#biografia">Vita</a></li>
+            <li><a href="#opere">Opere</a></li>
+            <li><a href="#secretum">Secretum</a></li>
+            <li><a href="#canzoniere">Canzoniere</a></li>
+            <li><a href="#ventoso">Monte Ventoso</a></li>
+            <li><a href="#boccaccio">Umanesimo</a></li>
+            <li><a href="#eredita">Eredità</a></li>
+        </ul>
+    </nav>
+
+    <!-- HERO -->
+    <section id="hero">
+        <div class="hero-bg"></div>
+        <div class="hero-lines"></div>
+        <div class="hero-inner">
+            <div>
+                <p class="hero-year">Arezzo, 20 luglio 1304 — Arquà, 1374</p>
+                <h1 class="hero-title">
+                    Francesco<br>
+                    <em>Petrarca</em>
+                </h1>
+                <p class="hero-subtitle">
+                    Architetto dell'Interiorità e<br>
+                    Fondatore dell'Umanesimo Europeo.<br>
+                    <br>
+                    Petrarca smette di guardare solo a Dio e inizia a raccontare
+                    i dubbi e le emozioni dell'uomo — fondando una nuova idea di cultura
+                    basata sull'esperienza interiore.
+                </p>
+                <a href="#biografia" class="hero-cta">
+                    <span>Inizia il viaggio</span>
+                    <span>↓</span>
+                </a>
+            </div>
+            <div class="hero-right">
+                <div class="hero-stat">
+                    <div class="hero-stat-num">366</div>
+                    <div class="hero-stat-label">Componimenti nel Canzoniere</div>
+                </div>
+                <div class="hero-stat">
+                    <div class="hero-stat-num">1341</div>
+                    <div class="hero-stat-label">Incoronazione in Campidoglio</div>
+                </div>
+                <div class="hero-stat">
+                    <div class="hero-stat-num">1327</div>
+                    <div class="hero-stat-label">Primo incontro con Laura</div>
+                </div>
+                <div class="hero-stat">
+                    <div class="hero-stat-num">70</div>
+                    <div class="hero-stat-label">Anni di vita — primo uomo moderno</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- BIOGRAFIA -->
+    <section id="biografia">
+        <div class="section-wrap">
+            <p class="section-label reveal">Biografia</p>
+            <h2 class="section-title reveal">La Genesi di un<br><span>Intellettuale Cosmopolita</span></h2>
+            <p style="font-weight:600; color:var(--accent); margin-bottom:.8rem; font-size:1.05rem;" class="reveal">
+                In breve: Petrarca è il primo intellettuale moderno perché ha viaggiato in tutta Europa,
+                ha riscoperto i classici antichi e ha messo al centro i sentimenti umani.
+            </p>
+            <p class="bio-intro reveal">
+                Figlio di Ser Petracco, notaio esiliato insieme a Dante nel 1302,
+                Francesco nasce ad Arezzo il 20 luglio 1304. Racconta di essere nato
+                «con auspici di morte»: il parto fu così pericoloso che i medici
+                temettero per la vita della madre. Questa consapevolezza di aver sfiorato il nulla
+                fin dal primo respiro gli diede un'attenzione profonda per la fragilità della vita umana.
+                Cresciuto in esilio, si sentì sempre un <em>peregrinus ubique</em> — cittadino del mondo,
+                libero dai vincoli di una sola città e aperto a tutta la cultura europea.
+            </p>
+            <div class="timeline">
+                <div class="tl-item">
+                    <div>
+                        <div class="tl-year">1304–1311</div>
+                        <div class="tl-place">Arezzo · Toscana</div>
+                    </div>
+                    <div class="tl-content">
+                        <h3>Infanzia nell'Esilio</h3>
+                        <p>Nasce ad Arezzo il 20 luglio 1304, figlio di un notaio esiliato da Firenze insieme a Dante
+                            Alighieri. L'esilio paterno segna dall'origine la sua identità di intellettuale senza patria
+                            fissa.</p>
+                    </div>
+                </div>
+                <div class="tl-item">
+                    <div>
+                        <div class="tl-year">1312–1320</div>
+                        <div class="tl-place">Avignone · Carpentras</div>
+                    </div>
+                    <div class="tl-content">
+                        <h3>La Corte Papale</h3>
+                        <p>Trasferimento al seguito della corte papale. L'ambiente cosmopolita di Avignone permette i
+                            primi contatti con la tradizione provenzale e con la burocrazia ecclesiastica europea.</p>
+                    </div>
+                </div>
+                <div class="tl-item">
+                    <div>
+                        <div class="tl-year">1320–1326</div>
+                        <div class="tl-place">Montpellier · Bologna</div>
+                    </div>
+                    <div class="tl-content">
+                        <h3>Studi e Ribellione</h3>
+                        <p>Il padre lo avvia agli studi di diritto civile a Bologna. Francesco legge segretamente
+                            Virgilio e Cicerone, scoprendo una vocazione irreversibile per la letteratura classica.</p>
+                    </div>
+                </div>
+                <div class="tl-item">
+                    <div>
+                        <div class="tl-year">1327</div>
+                        <div class="tl-place">Avignone</div>
+                    </div>
+                    <div class="tl-content">
+                        <h3>L'Incontro con Laura</h3>
+                        <p>Il 6 aprile 1327, nella chiesa di Santa Chiara ad Avignone, incontra Laura. Questo momento
+                            diventerà il fulcro di tutta la sua produzione lirica — un conflitto tra passione terrena e
+                            aspirazione divina.</p>
+                    </div>
+                </div>
+                <div class="tl-item">
+                    <div>
+                        <div class="tl-year">1336</div>
+                        <div class="tl-place">Monte Ventoso</div>
+                    </div>
+                    <div class="tl-content">
+                        <h3>La Scalata Interiore</h3>
+                        <p>Il 26 aprile 1336 scala il Monte Ventoso in Provenza. L'impresa fisica si trasforma in
+                            allegoria dell'ascesa spirituale — uno dei testi cardine dell'umanesimo europeo.</p>
+                    </div>
+                </div>
+                <div class="tl-item">
+                    <div>
+                        <div class="tl-year">1341</div>
+                        <div class="tl-place">Roma</div>
+                    </div>
+                    <div class="tl-content">
+                        <h3>L'Incoronazione Poetica</h3>
+                        <p>L'8 aprile 1341 viene incoronato poeta in Campidoglio, dopo l'esame del re Roberto d'Angiò a
+                            Napoli. Dimostra che la poesia è una disciplina dotta, non un passatempo.</p>
+                    </div>
+                </div>
+                <div class="tl-item">
+                    <div>
+                        <div class="tl-year">1348</div>
+                        <div class="tl-place">Europa</div>
+                    </div>
+                    <div class="tl-content">
+                        <h3>La Morte di Laura</h3>
+                        <p>Laura muore durante la grande epidemia di Peste. Questo evento divide il Canzoniere in "rime
+                            in vita" e "rime in morte", trasformando il desiderio in memoria elegiaca.</p>
+                    </div>
+                </div>
+                <div class="tl-item">
+                    <div>
+                        <div class="tl-year">1353–1374</div>
+                        <div class="tl-place">Milano · Venezia · Arquà</div>
+                    </div>
+                    <div class="tl-content">
+                        <h3>Gli Ultimi Anni</h3>
+                        <p>Soggiorno controverso presso i Visconti a Milano, poi ritiro a Venezia e infine ad Arquà sui
+                            Colli Euganei. Dedica gli ultimi anni alla revisione maniacale delle sue opere. Muore nel
+                            1374 leggendo Virgilio.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- OPERE LATINE -->
+    <section id="opere">
+        <div class="section-wrap">
+            <p class="section-label reveal">Opere Latine</p>
+            <h2 class="section-title reveal">La <span>Gloria Immortale</span><br>nei Classici</h2>
+            <p class="reveal" style="color:var(--text-muted); max-width:640px; margin-bottom:3rem; line-height:1.9;">
+                Petrarca considerava il latino la lingua della cultura immortale. Paradossalmente, i posteri ricordano
+                soprattutto i suoi versi in volgare — ma la sua grandezza filologica vive nelle opere latine.
+            </p>
+            <div class="opere-grid reveal">
+                <div class="opera-card">
+                    <div class="opera-tipo">Poema Epico</div>
+                    <div class="opera-nome">Africa</div>
+                    <div class="opera-desc">Celebrazione di Scipione l'Africano e della gloria di Roma. L'opera che
+                        valse a Petrarca l'incoronazione poetica — un tentativo di emulare Virgilio nell'epica latina.
+                    </div>
+                </div>
+                <div class="opera-card">
+                    <div class="opera-tipo">Biografie</div>
+                    <div class="opera-nome">De viris illustribus</div>
+                    <div class="opera-desc">Raccolta di vite di grandi uomini dell'antichità con finalità morale. La
+                        storia come specchio di virtù per i contemporanei — un antesignano della biografia moderna.
+                    </div>
+                </div>
+                <div class="opera-card">
+                    <div class="opera-tipo">Trattato Morale</div>
+                    <div class="opera-nome">De vita solitaria</div>
+                    <div class="opera-desc">Elogio dell'<em>otium</em> letterario e del ritiro spirituale lontano dal
+                        rumore del mondo. Teorizza che il distacco dalla vita mondana è condizione necessaria per la
+                        vera nobiltà d'animo.</div>
+                </div>
+                <div class="opera-card">
+                    <div class="opera-tipo">Dialogo Filosofico</div>
+                    <div class="opera-nome">Secretum</div>
+                    <div class="opera-desc">Dialogo immaginario tra Francesco e Sant'Agostino, alla presenza muta della
+                        Verità. Anatomia spietata del dissidio interiore — l'opera psicologicamente più moderna di tutto
+                        il Trecento.</div>
+                </div>
+                <div class="opera-card">
+                    <div class="opera-tipo">Epistolario</div>
+                    <div class="opera-nome">Rerum Familiarum Libri</div>
+                    <div class="opera-desc">350 lettere in 24 libri, indirizzate ad amici, potenti e persino agli
+                        antichi (Cicerone, Seneca). Ogni lettera è un saggio letterario destinato ai posteri —
+                        autobiografia ideale.</div>
+                </div>
+                <div class="opera-card">
+                    <div class="opera-tipo">Egloghe Pastorali</div>
+                    <div class="opera-nome">Bucolicum carmen</div>
+                    <div class="opera-desc">Poesia pastorale modellata su Virgilio con contenuti allegorici che celano
+                        riferimenti alla contemporaneità politica e spirituale. Un codice per iniziati tra i letterati
+                        del tempo.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- SECRETUM -->
+    <section id="secretum">
+        <div class="section-wrap">
+            <p class="section-label reveal">1347–1353</p>
+            <h2 class="section-title reveal">Il <span>Secretum</span><br>Anatomia del Dissidio</h2>
+            <p class="reveal" style="color:var(--text-muted); max-width:680px; margin-bottom:3rem; line-height:1.9;">
+                Il <em>Secretum</em> (titolo completo: <em>De secreto conflictu curarum mearum</em>) è l'opera
+                più introspettiva di Petrarca. Strutturato come un dialogo immaginario in tre giorni tra il poeta
+                e Sant'Agostino, alla presenza muta della Verità, è un tentativo di autoanalisi radicale —
+                il primo esempio di psicologia letteraria della modernità.
+            </p>
+
+            <div class="secretum-glass reveal">
+                <p
+                    style="font-family:var(--mono); font-size:.65rem; letter-spacing:.18em; color:var(--accent); text-transform:uppercase; margin-bottom:2rem;">
+                    Dialogo — Libro II · Il Peccato dell'Accidia</p>
+                <div class="dialog-container">
+                    <div class="dialog-block">
+                        <div class="dialog-speaker agostino">Agostino</div>
+                        <div class="dialog-text">«Sei oppresso da quella tremenda malattia dello spirito che gli antichi
+                            chiamavano <em>aegritudo</em> — e che io chiamo accidia. Non è pigrizia del corpo,
+                            Francesco. È la paralisi dell'anima di fronte alla propria vanità.»</div>
+                    </div>
+                    <div class="dialog-block">
+                        <div class="dialog-speaker francesco">Francesco</div>
+                        <div class="dialog-text">«Sì, conosco quella tristezza profonda. Mi impedisce di godere di
+                            qualsiasi bene mondano. È come se ogni cosa bella contenesse già il germe della sua
+                            dissoluzione.»</div>
+                    </div>
+                    <div class="dialog-block">
+                        <div class="dialog-speaker agostino">Agostino</div>
+                        <div class="dialog-text">«Hai due catene dorate che ti tengono prigioniero: l'amore per Laura e
+                            la sete di gloria poetica. Le chiami nobili. Io ti dico che sono le più sottili e le più
+                            insidiose, proprio perché sembrano virtù.»</div>
+                    </div>
+                    <div class="dialog-block">
+                        <div class="dialog-speaker francesco">Francesco</div>
+                        <div class="dialog-text">«Riconosco i miei errori. Ma non ho ancora la forza di spezzare questi
+                            legami. Lasciami ancora un poco con le mie cure — poi verrò a te con un'anima più libera.»
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="secretum-analysis reveal">
+                <h4>Di cosa parla il testo — Analisi</h4>
+                <p style="font-weight:600; color:var(--accent); margin-bottom:.8rem;">
+                    In breve: un diario segreto dove Petrarca confessa di essere diviso tra il desiderio
+                    di gloria e il bisogno di fede.
+                </p>
+                <p>
+                    Il <em>Secretum</em> mette in scena il conflitto centrale della vita di Petrarca: da un lato
+                    vuole la fama e l'amore di Laura, dall'altro sa che dovrebbe dedicarsi solo a Dio.
+                    Sant'Agostino gli fa da coscienza critica, smascherando le sue scuse.
+                    Il tema più importante è l'<strong>accidia</strong> — quella strana tristezza che ti toglie
+                    la voglia di fare qualsiasi cosa, anche se sai che dovresti. La critica moderna la paragona
+                    alla depressione. Il finale resta aperto: Francesco riconosce le proprie catene ma non ha
+                    la forza di spezzarle. Questa irresolutezza è il cuore della sua modernità.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- CANZONIERE -->
+    <section id="canzoniere">
+        <div class="section-wrap">
+            <p class="section-label reveal">Rerum Vulgarium Fragmenta</p>
+            <h2 class="section-title reveal">Il <span>Canzoniere</span><br>Diario dell'Anima</h2>
+
+            <div class="canzoniere-intro reveal">
+                <p>
+                    Il Canzoniere è la raccolta di 366 componimenti in volgare toscano scritti lungo l'intero arco
+                    della vita adulta di Petrarca. Il numero non è casuale: corrisponde ai giorni di un anno bisestile,
+                    facendone un "breviario laico" che accompagna il poeta ogni giorno. Strutturalmente diviso in
+                    <em>rime in vita</em> e <em>rime in morte</em> di Laura (1348), l'opera si distingue per
+                    un "unilinguismo" raffinatissimo — lessico selezionato, musicalità perfetta, stilizzazione assoluta.
+                    Laura non è più la "donna angelo" dantesca, ma una donna reale che invecchia, che muore,
+                    specchio della caducità di tutte le cose mondane.
+                </p>
+                <div class="canzoniere-stats">
+                    <div class="canz-stat">
+                        <div class="canz-stat-n">317</div>
+                        <div class="canz-stat-l">Sonetti</div>
+                    </div>
+                    <div class="canz-stat">
+                        <div class="canz-stat-n">29</div>
+                        <div class="canz-stat-l">Canzoni</div>
+                    </div>
+                    <div class="canz-stat">
+                        <div class="canz-stat-n">9</div>
+                        <div class="canz-stat-l">Sestine</div>
+                    </div>
+                    <div class="canz-stat">
+                        <div class="canz-stat-n">7+4</div>
+                        <div class="canz-stat-l">Ballate · Madrigali</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STRUTTURA DIALETTICA DEL SONETTO -->
+            <div class="sonetto-struttura reveal">
+                <p class="section-label">Teoria e Tecnica</p>
+                <h3 style="font-family:var(--serif); font-size:clamp(1.4rem, 3vw, 2rem); font-weight:700; color:var(--text); line-height:1.3; margin-bottom:1rem;">
+                    La Struttura <span style="color:var(--accent); font-style:italic;">Dialettica</span> del Sonetto
+                </h3>
+                <p style="color:var(--text-muted); max-width:680px; line-height:1.9; margin-bottom:2rem;">
+                    Petrarca non si limitò a utilizzare il sonetto: ne definì un'<em>architettura interiore</em> che
+                    rispecchia la dialettica del suo pensiero. La divisione tra «fronte» (le quartine)
+                    e «sirima» (le terzine) non è solo metrica, ma risponde a una dinamica psicologica
+                    e narrativa che diverrà lo standard per la lirica europea.
+                </p>
+
+                <div class="struttura-grid">
+                    <div class="struttura-part">
+                        <div class="struttura-part-label">Versi 1–8 · La Fronte</div>
+                        <div class="struttura-part-title">Le Quartine</div>
+                        <div class="struttura-part-schema">ABBA ABBA</div>
+                        <p>
+                            <strong>Dimensione descrittiva e positiva.</strong> Petrarca utilizza le quartine per
+                            impostare la situazione, descrivere l'oggetto del desiderio (Laura) o rievocare un
+                            ricordo in modo quasi iperbolico. Il tempo verbale prevalente è l'imperfetto o il
+                            passato remoto, creando un'atmosfera di <em>memoria idealizzata</em>. Le quartine
+                            tendono a presentare immagini luminose, attributi divini e una natura partecipe della
+                            bellezza della donna. Lo schema rimico incrociato conferisce una struttura chiusa e
+                            armoniosa — quasi una culla sonora che accoglie la visione.
+                        </p>
+                    </div>
+                    <div class="volta-divider">
+                        <div class="volta-line"></div>
+                        <div class="volta-label">La Volta · v.9</div>
+                        <div class="volta-line"></div>
+                    </div>
+                    <div class="struttura-part">
+                        <div class="struttura-part-label">Versi 9–14 · La Sirima</div>
+                        <div class="struttura-part-title">Le Terzine</div>
+                        <div class="struttura-part-schema">CDE CDE · CDC DCD</div>
+                        <p>
+                            <strong>Dimensione riflessiva e tragica.</strong> Il focus si sposta dall'oggetto esterno
+                            al soggetto interno. Qui emerge il dissidio, il dolore per la perdita, la consapevolezza
+                            della morte o il pentimento religioso. Se nelle quartine Laura era «sole» e «angelo»,
+                            nelle terzine il poeta si scopre «vecchio», «stanco» o «moribondo». Lo schema rimico
+                            è più aperto e mosso rispetto alle quartine, riflettendo l'agitazione dell'anima che
+                            cerca una soluzione al proprio tormento.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="volta-note">
+                    <p>
+                        Questa struttura dialettica — <em>visione positiva seguita da riflessione tragica</em> — è
+                        lo specchio del dramma petrarchesco: la bellezza terrena è un richiamo irresistibile
+                        (quartine), ma la sua natura effimera porta inevitabilmente alla sofferenza e al bisogno
+                        di Dio (terzine). Il passaggio tra l'ottavo e il nono verso — la «volta» — rappresenta il
+                        <em>momento del cambiamento</em>: la sintassi si rompe o si inverte, introducendo una
+                        riflessione che mette in dubbio la positività della visione precedente.
+                    </p>
+                </div>
+            </div>
+
+            <!-- LABOR LIMAE E UNILINGUISMO -->
+            <div class="labor-block reveal">
+                <div class="labor-card">
+                    <h4>Labor Limae</h4>
+                    <div class="labor-sub">Il lavoro incessante di revisione</div>
+                    <p>
+                        Petrarca è celebre per il suo incessante lavoro di revisione, definito <em>labor limae</em>.
+                        Egli cercava una perfezione formale che fosse specchio di un'armonia interiore mai
+                        pienamente raggiunta. Ogni verso veniva riscritto, limato, perfezionato — non per
+                        vanità stilistica, ma per necessità spirituale: la forma perfetta come tentativo
+                        (sempre incompiuto) di dominare il caos dell'anima.
+                    </p>
+                </div>
+                <div class="labor-card">
+                    <h4>Unilinguismo</h4>
+                    <div class="labor-sub">Gianfranco Contini · Monolinguismo vs Plurilinguismo</div>
+                    <p>
+                        A differenza di Dante, che nella <em>Commedia</em> utilizza tutti i registri linguistici
+                        (dal triviale al sublime), Petrarca opera una selezione drastica del lessico. Evita termini
+                        realistici, dialettali o tecnici, preferendo un vocabolario ristretto ma estremamente
+                        raffinato ed evocativo. Questa scelta riflette la volontà di creare una <em>lingua poetica
+                        universale</em>, slegata dalle contingenze locali, capace di parlare all'anima di ogni epoca.
+                    </p>
+                </div>
+            </div>
+
+            <!-- SONETTI CON TABS -->
+            <div class="reveal">
+                <div class="sonetto-tabs">
+                    <button class="tab-btn active" onclick="showTab('rvf1')">Rvf 1 — Proemio</button>
+                    <button class="tab-btn" onclick="showTab('rvf35')">Rvf 35 — Solitudine</button>
+                    <button class="tab-btn" onclick="showTab('rvf90')">Rvf 90 — Laura</button>
+                    <button class="tab-btn" onclick="showTab('rvf310')">Rvf 310 — Primavera</button>
+                </div>
+
+                <!-- RVF 1 -->
+                <div id="rvf1" class="sonetto-panel active">
+                    <div class="sonetto-card">
+                        <div class="sonetto-header">
+                            <div>
+                                <div class="sonetto-num">Canzoniere · I</div>
+                                <div class="sonetto-title">Voi ch'ascoltate in rime sparse il suono</div>
+                            </div>
+                            <div
+                                style="font-family:var(--mono); font-size:.62rem; color:var(--text-muted); letter-spacing:.1em;">
+                                PROEMIO · ~1350</div>
+                        </div>
+                        <div class="sonetto-body">
+                            <div class="sonetto-col">
+                                <div class="sonetto-col-label">Testo Originale</div>
+                                <div class="sonetto-text">Voi ch'ascoltate in rime sparse il suono
+                                    di quei sospiri ond'io nudriva 'l core
+                                    in sul mio primo giovenile errore
+                                    quand'era in parte altr'uom da quel ch'i' sono,
+
+                                    del vario stile in ch'io piango et ragiono
+                                    fra le vane speranze e 'l van dolore,
+                                    ove sia chi per prova intenda amore,
+                                    spero trovar pietà, nonché perdono.
+
+                                    Ma ben veggio or sì come al popol tutto
+                                    favola fui gran tempo, onde sovente
+                                    di me medesmo meco mi vergogno;
+
+                                    et del mio vaneggiar vergogna è 'l frutto,
+                                    e 'l pentersi, e 'l conoscer chiaramente
+                                    che quanto piace al mondo è breve sogno.</div>
+                            </div>
+                            <div class="sonetto-col">
+                                <div class="sonetto-col-label">Parafrasi</div>
+                                <div class="sonetto-parafrasi">
+                                    <p>Voi che ascoltate, sparse in versi, il suono di quei sospiri con cui nutrivo il
+                                        mio cuore nel mio primo errore giovanile, quando ero in parte un uomo diverso da
+                                        quello che sono ora —</p>
+                                    <br>
+                                    <p>voi che nelle alternanze del mio stile ascoltate come io pianga e ragioni tra le
+                                        vane speranze e il vano dolore, chiunque per esperienza diretta conosca l'amore:
+                                        spero di trovare compassione, e perfino perdono.</p>
+                                    <br>
+                                    <p>Ma ora vedo chiaramente come per lungo tempo sono stato oggetto di chiacchiere
+                                        per tutti, e perciò spesso mi vergogno di me stesso, dentro di me.</p>
+                                    <br>
+                                    <p>E il frutto del mio vaneggiare è appunto la vergogna, il pentimento, e la
+                                        consapevolezza lucida che tutto ciò che affascina gli uomini nel mondo non è
+                                        altro che un breve sogno.</p>
+                                </div>
+                            </div>
+                            <div class="sonetto-col">
+                                <div class="sonetto-col-label">Di cosa parla il testo</div>
+                                <div class="sonetto-analisi">
+                                    <div class="analisi-tag">Proemio retrospettivo</div>
+                                    <p>Posto all'inizio della raccolta ma scritto nella fase finale di revisione
+                                        (~1350), questo sonetto funge da chiave di lettura dell'intera opera. Petrarca
+                                        si rivolge a lettori che abbiano esperienza diretta dell'amore, chiedendo non
+                                        solo perdono ma anche compassione per il suo "vario stile".</p>
+                                    <br>
+                                    <p>La sua passione giovanile è definita un <strong>"errore"</strong> — segnale di
+                                        una distanza critica raggiunta col tempo. La frammentazione dell'io è
+                                        esplicitata: "quand'era in parte altr'uom da quel ch'i' sono". Nelle terzine
+                                        domina la vergogna sociale: Petrarca era diventato oggetto di pettegolezzi. La
+                                        conclusione amara — "quanto piace al mondo è breve sogno" — introduce il tema
+                                        della <em>vanitas</em> che percorre tutto il Canzoniere.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- RVF 35 -->
+                <div id="rvf35" class="sonetto-panel">
+                    <div class="sonetto-card">
+                        <div class="sonetto-header">
+                            <div>
+                                <div class="sonetto-num">Canzoniere · XXXV</div>
+                                <div class="sonetto-title">Solo et pensoso i più deserti campi</div>
+                            </div>
+                            <div
+                                style="font-family:var(--mono); font-size:.62rem; color:var(--text-muted); letter-spacing:.1em;">
+                                SOLITUDINE · ~1330–1340</div>
+                        </div>
+                        <div class="sonetto-body">
+                            <div class="sonetto-col">
+                                <div class="sonetto-col-label">Testo Originale</div>
+                                <div class="sonetto-text">Solo et pensoso i piú deserti campi
+                                    vo mesurando a passi tardi et lenti,
+                                    et gli occhi porto per fuggire intenti
+                                    ove vestigio human l'arena stampi.
+
+                                    Altro schermo non trovo che mi scampi
+                                    dal manifesto accorger de le genti,
+                                    perché negli atti d'alegrezza spenti
+                                    di fuor si legge com'io dentro avampi:
+
+                                    sì ch'io mi credo omai che monti et piagge
+                                    et fiumi et selve sappian di che tempre
+                                    sia la mia vita, ch'è celata altrui.
+
+                                    Ma pur sì aspre vie né sì selvagge
+                                    cercar non so ch'Amor non venga sempre
+                                    ragionando con meco, et io co·llui.</div>
+                            </div>
+                            <div class="sonetto-col">
+                                <div class="sonetto-col-label">Parafrasi</div>
+                                <div class="sonetto-parafrasi">
+                                    <p>Solo e pensieroso, percorro a passi lenti i campi più deserti; tengo gli occhi
+                                        fissi a terra per evitare i luoghi dove tracce umane si imprimano nella sabbia.
+                                    </p>
+                                    <br>
+                                    <p>Non trovo altro riparo che mi salvi dall'essere scoperto dagli altri, perché nei
+                                        miei gesti privi di gioia si legge all'esterno il fuoco che arde dentro di me.
+                                    </p>
+                                    <br>
+                                    <p>Tanto che ormai credo che monti, pianure, fiumi e boschi sappiano com'è fatta la
+                                        mia vita — quella vita che è nascosta agli uomini.</p>
+                                    <br>
+                                    <p>Eppure non so trovare vie così aspre e selvagge che Amore non venga sempre a
+                                        dialogare con me, e io con lui.</p>
+                                </div>
+                            </div>
+                            <div class="sonetto-col">
+                                <div class="sonetto-col-label">Di cosa parla il testo</div>
+                                <div class="sonetto-analisi">
+                                    <div class="analisi-tag">Fuga e interiorità</div>
+                                    <p>Il poeta descrive una fuga fisica e psicologica dalla società: teme che gli altri
+                                        leggano la sua sofferenza nei gesti. Il paesaggio naturale — monti, fiumi,
+                                        boschi — diventa l'unico confidente del suo stato d'animo, quasi personificato.
+                                    </p>
+                                    <br>
+                                    <p>Il verso centrale "di fuor si legge com'io dentro avampi" esprime la trasparenza
+                                        involontaria dell'animo ferito. La chiusura è il vero colpo di scena:
+                                        <strong>non esistono luoghi così remoti</strong> da cui sfuggire al dialogo
+                                        interiore con Amore. La solitudine cercata non è mai raggiungibile davvero —
+                                        Amore segue il poeta ovunque.
+                                    </p>
+                                    <br>
+                                    <p>Questo sonetto anticipa la moderna teoria della <em>proiezione psicologica</em>
+                                        sul paesaggio esterno.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- RVF 90 -->
+                <div id="rvf90" class="sonetto-panel">
+                    <div class="sonetto-card">
+                        <div class="sonetto-header">
+                            <div>
+                                <div class="sonetto-num">Canzoniere · XC</div>
+                                <div class="sonetto-title">Erano i capei d'oro a l'aura sparsi</div>
+                            </div>
+                            <div
+                                style="font-family:var(--mono); font-size:.62rem; color:var(--text-muted); letter-spacing:.1em;">
+                                MEMORIA · ~1340–1350</div>
+                        </div>
+                        <div class="sonetto-body">
+                            <div class="sonetto-col">
+                                <div class="sonetto-col-label">Testo Originale</div>
+                                <div class="sonetto-text">Erano i capei d'oro a l'aura sparsi
+                                    che 'n mille dolci nodi gli avolgea,
+                                    e 'l vago lume oltra misura ardea
+                                    di quei begli occhi, ch'or ne son sì scarsi;
+
+                                    e 'l viso di pietosi color' farsi,
+                                    non so se vero o falso, mi parea:
+                                    i' che l'esca amorosa al petto avea,
+                                    qual meraviglia se di sùbito arsi?
+
+                                    Non era l'andar suo cosa mortale,
+                                    ma d'angelica forma; e le parole
+                                    sonavan altro, che pur voce humana.
+
+                                    Uno spirto celeste, un vivo sole
+                                    fu quel ch'i' vidi: e se non fosse or tale,
+                                    piagha per allentar d'arco non sana.</div>
+                            </div>
+                            <div class="sonetto-col">
+                                <div class="sonetto-col-label">Parafrasi</div>
+                                <div class="sonetto-parafrasi">
+                                    <p>I capelli d'oro erano sparsi all'aria, e l'aria li avvolgeva in mille dolci nodi;
+                                        la luce vaga e indefinita ardeva oltre misura in quegli occhi belli, che ora
+                                        sono così avari di quella luce.</p>
+                                    <br>
+                                    <p>E il viso mi sembrava assumere colori pieni di pietà — non so se davvero o per
+                                        illusione: io che avevo nel petto l'esca pronta ad ardere, che meraviglia se mi
+                                        infiammai di colpo?</p>
+                                    <br>
+                                    <p>Il suo incedere non era cosa mortale, ma di forma angelica; e le sue parole
+                                        risuonavano come qualcosa di diverso da una semplice voce umana.</p>
+                                    <br>
+                                    <p>Uno spirito celeste, un sole vivo fu ciò che vidi: e anche se non fosse più tale
+                                        adesso, una ferita non guarisce solo perché l'arco che ha scoccato si è
+                                        allentato.</p>
+                                </div>
+                            </div>
+                            <div class="sonetto-col">
+                                <div class="sonetto-col-label">Di cosa parla il testo</div>
+                                <div class="sonetto-analisi">
+                                    <div class="analisi-tag">Laura e la caducità</div>
+                                    <p>Questo sonetto segna il superamento dello Stilnovo: Laura inizialmente sembra la
+                                        "donna angelo" dantesca (capelli d'oro, occhi luminosi, andatura celestiale). Ma
+                                        Petrarca inserisce la <strong>dimensione temporale</strong> — quegli occhi "or
+                                        ne son sì scarsi" di luce: la donna è invecchiata o è morta.</p>
+                                    <br>
+                                    <p>Il dubbio "non so se vero o falso" introduce una incertezza percettiva
+                                        modernissima. L'ultima terzina è la chiave di tutto: anche se la bellezza fisica
+                                        di Laura è svanita, <strong>l'amore non cessa</strong> — come una ferita che non
+                                        guarisce perché l'arco ha smesso di scoccare frecce. Laura è una creatura
+                                        terrena soggetta alla caducità, e questo la rende più umana e tragica della
+                                        Beatrice dantesca.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- RVF 310 -->
+                <div id="rvf310" class="sonetto-panel">
+                    <div class="sonetto-card">
+                        <div class="sonetto-header">
+                            <div>
+                                <div class="sonetto-num">Canzoniere · CCCX</div>
+                                <div class="sonetto-title">Zephiro torna, e 'l bel tempo rimena</div>
+                            </div>
+                            <div
+                                style="font-family:var(--mono); font-size:.62rem; color:var(--text-muted); letter-spacing:.1em;">
+                                RIME IN MORTE · dopo 1348</div>
+                        </div>
+                        <div class="sonetto-body">
+                            <div class="sonetto-col">
+                                <div class="sonetto-col-label">Testo Originale</div>
+                                <div class="sonetto-text">Zephiro torna, e 'l bel tempo rimena,
+                                    e i fiori et l'erbe, sua dolce famiglia,
+                                    et garrir Progne et pianger Philomena,
+                                    et primavera candida et vermiglia.
+
+                                    Ridono i prati, e 'l ciel si rasserena;
+                                    Giove s'allegra di mirar sua figlia;
+                                    l'aria et l'acqua et la terra è d'amor piena;
+                                    ogni animal d'amar si riconsiglia.
+
+                                    Ma per me, lasso, tornano i più gravi
+                                    sospiri, che del cor profondo tragge
+                                    quella ch'al ciel se ne portò le chiavi;
+
+                                    et cantar augelletti, et fiorir piagge,
+                                    e 'n belle donne honeste atti soavi
+                                    sono un deserto, et fere aspre et selvagge.</div>
+                            </div>
+                            <div class="sonetto-col">
+                                <div class="sonetto-col-label">Parafrasi</div>
+                                <div class="sonetto-parafrasi">
+                                    <p>Il vento Zefiro ritorna, e riporta con sé il bel tempo, i fiori e le erbe, sua
+                                        dolce famiglia; riporta il cinguettio della rondine (Progne) e il pianto
+                                        dell'usignolo (Filomena), e la primavera bianca e vermiglia.</p>
+                                    <br>
+                                    <p>Ridono i prati, il cielo si rasserena; Giove si rallegra guardando sua figlia
+                                        (Venere / la Primavera); l'aria, l'acqua e la terra sono piene d'amore; ogni
+                                        essere vivente si torna a inclinare verso l'amore.</p>
+                                    <br>
+                                    <p>Ma per me, ahimè, ritornano i sospiri più gravi, che trae dal profondo del mio
+                                        cuore colei che portò con sé in cielo le chiavi di esso.</p>
+                                    <br>
+                                    <p>E il canto degli uccellini, il fiorire delle pianure, i gesti soavi delle belle
+                                        donne oneste — tutto questo per me è un deserto, e bestie feroci e selvagge.</p>
+                                </div>
+                            </div>
+                            <div class="sonetto-col">
+                                <div class="sonetto-col-label">Di cosa parla il testo</div>
+                                <div class="sonetto-analisi">
+                                    <div class="analisi-tag">Natura e lutto</div>
+                                    <p>Scritto dopo la morte di Laura (1348), il sonetto costruisce un contrasto
+                                        violento tra la natura che si rinnova e l'anima che non può rinnovarsi. Le
+                                        quartine accumulano immagini mitologiche vitali: Zefiro, Progne, Filomena,
+                                        Giove, Venere — l'intero cosmo partecipa a un rito d'amore universale.</p>
+                                    <br>
+                                    <p>Il "Ma per me, lasso" al verso 9 è uno dei più famosi cambi di prospettiva della
+                                        lirica italiana. Il paesaggio primaverile — che per tutti è gioia — diventa per
+                                        Petrarca <strong>un deserto popolato di fiere</strong>. La bellezza del mondo
+                                        esterno, invece di consolare, accentua il dolore per contrasto.</p>
+                                    <br>
+                                    <p>Questa tecnica del <em>contrappasso emotivo</em> tra natura e soggetto sarà uno
+                                        dei modelli fondativi del Romanticismo europeo.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- MONTE VENTOSO -->
+    <section id="ventoso">
+        <div class="ventoso-bg">Ventoso</div>
+        <div class="section-wrap">
+            <p class="section-label reveal">Familiares IV, 1 · 26 aprile 1336</p>
+            <h2 class="section-title reveal">La Scalata al<br><span>Monte Ventoso</span></h2>
+            <div class="ventoso-grid">
+                <div class="reveal">
+                    <p style="color:var(--text-muted); line-height:1.9; margin-bottom:2rem;">
+                        La lettera al frate agostiniano Dionigi di Borgo San Sepolcro è un testo cardine dell'umanesimo
+                        europeo. La scalata al Monte Ventoso in Provenza, compiuta con il fratello Gherardo, si
+                        trasforma rapidamente in allegoria morale — il racconto di due modi di vivere, di due vie
+                        verso la verità.
+                    </p>
+                    <div class="ventoso-quote">
+                        «E gli uomini vanno ad ammirare le alte vette dei monti, e i grandi flutti del mare,
+                        e le ampie correnti dei fiumi... e trascurano se stessi.»
+                        <cite>— Sant'Agostino, Confessioni X · letto sulla vetta</cite>
+                    </div>
+                    <p style="color:var(--text-muted); line-height:1.9; margin-top:2rem;">
+                        Giunto sulla vetta, Petrarca apre a caso le <em>Confessioni</em> di Sant'Agostino —
+                        donate proprio da Dionigi. Legge questo passo e viene colto da vergogna profonda.
+                        Capisce che la vera elevazione non è quella fisica sul monte, ma quella dell'anima
+                        che scruta se stessa. La discesa avviene in silenzio — segno di una presa di coscienza
+                        che però, come nel Secretum, rimane ancora incompiuta.
+                    </p>
+                </div>
+                <div class="ventoso-steps reveal">
+                    <div class="vstep">
+                        <div class="vstep-n">I</div>
+                        <div class="vstep-text">
+                            <h4>La partenza e l'impulso</h4>
+                            <p>Petrarca è mosso da semplice curiosità di vedere la cima più alta della regione —
+                                ispirato da un precedente di Filippo di Macedonia in Tito Livio. La curiosità
+                                intellettuale come movente della conoscenza.</p>
+                        </div>
+                    </div>
+                    <div class="vstep">
+                        <div class="vstep-n">II</div>
+                        <div class="vstep-text">
+                            <h4>I due fratelli — due vie</h4>
+                            <p>Gherardo sale direttamente per il sentiero più ripido (la vita monastica, il distacco).
+                                Francesco cerca scorciatoie e sentieri piani che lo portano a faticare di più senza
+                                guadagnare quota — metafora della <em>pigrizia spirituale</em>.</p>
+                        </div>
+                    </div>
+                    <div class="vstep">
+                        <div class="vstep-n">III</div>
+                        <div class="vstep-text">
+                            <h4>La vetta e il libro</h4>
+                            <p>Sulla sommità, lo spettacolo della natura lo colpisce. Ma aprendo le Confessioni trova le
+                                parole di Agostino che sembrano rivolte direttamente a lui: l'uomo ammira le montagne e
+                                trascura se stesso.</p>
+                        </div>
+                    </div>
+                    <div class="vstep">
+                        <div class="vstep-n">IV</div>
+                        <div class="vstep-text">
+                            <h4>La discesa in silenzio</h4>
+                            <p>Scende in silenzio totale. Il paesaggio esterno, per quanto grandioso, impallidisce di
+                                fronte alla vastità del mondo interiore. La conversione è necessaria — ma ancora lontana
+                                dall'essere compiuta.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- BOCCACCIO / UMANESIMO -->
+    <section id="boccaccio">
+        <div class="section-wrap">
+            <p class="section-label reveal">La Rete dell'Umanesimo</p>
+            <h2 class="section-title reveal">Petrarca<br><span>e Boccaccio</span></h2>
+            <p class="reveal" style="color:var(--text-muted); max-width:680px; margin-bottom:3rem; line-height:1.9;">
+                I due si incontrarono per la prima volta a Firenze nel 1350. Boccaccio nutriva per Petrarca una
+                venerazione assoluta, considerandolo il maestro che lo avrebbe allontanato dalle passioni
+                giovanili verso la dignità degli studi classici. Il loro sodalizio intellettuale — mantenuto
+                vivo da un fitto scambio di lettere e codici — definisce i contorni dell'umanesimo italiano.
+            </p>
+            <div class="duo-grid reveal">
+                <div class="duo-card">
+                    <div class="duo-card-num">I</div>
+                    <div class="duo-name">Francesco Petrarca</div>
+                    <div class="duo-row">
+                        <div class="duo-item">
+                            <div class="duo-key">Volgare</div>
+                            <div class="duo-val">Unilinguismo selettivo; il volgare è per i <em>fragmenta</em>, il
+                                latino per la gloria immortale.</div>
+                        </div>
+                        <div class="duo-item">
+                            <div class="duo-key">Laura</div>
+                            <div class="duo-val">Figura terrena soggetta al tempo — ostacolo e desiderio, specchio della
+                                caducità.</div>
+                        </div>
+                        <div class="duo-item">
+                            <div class="duo-key">Filosofia</div>
+                            <div class="duo-val">Umanesimo cristiano: i classici come preparazione alla verità rivelata.
+                                <em>Otium</em> letterario come condizione della vera nobiltà.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="duo-card">
+                    <div class="duo-card-num">II</div>
+                    <div class="duo-name">Giovanni Boccaccio</div>
+                    <div class="duo-row">
+                        <div class="duo-item">
+                            <div class="duo-key">Volgare</div>
+                            <div class="duo-val">Realismo narrativo; il volgare è lingua della comunicazione sociale e
+                                dell'intrattenimento colto.</div>
+                        </div>
+                        <div class="duo-item">
+                            <div class="duo-key">La donna</div>
+                            <div class="duo-val">Interlocutrice terrena dotata di desideri e intelligenza pratica — né
+                                angelo né simbolo.</div>
+                        </div>
+                        <div class="duo-item">
+                            <div class="duo-key">Contributo</div>
+                            <div class="duo-val">Favorisce l'ingresso del greco antico nell'umanesimo, ospitando Leonzio
+                                Pilato per tradurre Omero su suggerimento di Petrarca.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <table class="confronto-table reveal">
+                <thead>
+                    <tr>
+                        <th>Autore</th>
+                        <th>Rapporto con il Volgare</th>
+                        <th>Concezione della Donna</th>
+                        <th>Elemento Distintivo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Dante</td>
+                        <td>Sperimentazione totale; plurilinguismo; il volgare è lingua del sacro.</td>
+                        <td>Beatrice è figura salvifica, ponte tra uomo e Dio.</td>
+                        <td>La poesia come teologia — il viaggio come salvazione.</td>
+                    </tr>
+                    <tr>
+                        <td>Petrarca</td>
+                        <td>Unilinguismo selettivo; il volgare è per i <em>fragmenta</em>, il latino per la gloria.</td>
+                        <td>Laura è figura terrena, soggetta al tempo, ostacolo e desiderio.</td>
+                        <td>La poesia come psicologia — il dissidio interiore come forma d'arte.</td>
+                    </tr>
+                    <tr>
+                        <td>Boccaccio</td>
+                        <td>Realismo narrativo; il volgare è lingua della comunicazione sociale.</td>
+                        <td>La donna è interlocutrice terrena, dotata di desideri e intelligenza pratica.</td>
+                        <td>La prosa come specchio del mondo — la novella come antropologia.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- EREDITÀ -->
+    <section id="eredita">
+        <div class="section-wrap">
+            <p class="section-label reveal" style="justify-content:center;">1374 — Arquà</p>
+            <div class="eredita-quote reveal">
+                Francesco Petrarca muore nel 1374 leggendo <em>Virgilio</em>. La sua morte segna la fine di un'epoca
+                e l'inizio di una nuova era culturale. Ha lasciato non solo un modello poetico insuperato per secoli —
+                il <strong>petrarchismo</strong> — ma soprattutto una nuova figura di intellettuale:
+                il letterato come <strong>guida morale della società</strong>, custode della memoria storica
+                e scrutatore instancabile della coscienza individuale.
+            </div>
+            <p class="eredita-date reveal">Arquà, Colli Euganei — 18/19 luglio 1374</p>
+
+            <div class="eredita-grid reveal">
+                <div class="eredita-card">
+                    <h4>Il Petrarchismo</h4>
+                    <p>Il modello lirico petrarchesco si diffonde in tutta Europa per due secoli: da Chaucer in
+                        Inghilterra a Garcilaso de la Vega in Spagna, dai poeti della Pléiade in Francia fino ai
+                        sonettisti elisabettiani. Un'influenza senza paragoni nella storia della letteratura
+                        occidentale.</p>
+                </div>
+                <div class="eredita-card">
+                    <h4>La Filologia Moderna</h4>
+                    <p>La sua prassi di ricerca dei codici classici, la ricostruzione delle decadi di Livio, il
+                        ritrovamento delle lettere di Cicerone ad Attico — Petrarca fonda la filologia moderna come
+                        disciplina rigorosa. Senza di lui, gran parte della letteratura latina ci sarebbe ignota.</p>
+                </div>
+                <div class="eredita-card">
+                    <h4>Il Primo Uomo Moderno</h4>
+                    <p>La sua modernità risiede nella "insecuritas" — nel costante viaggio fisico tra le corti e
+                        spirituale tra fede e ragione, nell'incapacità di risolvere il dissidio, nel rendere quella
+                        ferita aperta la materia stessa dell'arte. È, a tutti gli effetti, il primo uomo moderno della
+                        nostra letteratura.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>Francesco Petrarca · <span>1304–1374</span> · Architetto dell'Interiorità</p>
+        <p>Fondatore dell'<span>Umanesimo Europeo</span></p>
+    </footer>
+
+    <script>
+        // CURSOR
+        const cursor = document.getElementById('cursor');
+        const ring = document.getElementById('cursorRing');
+        let mx = 0, my = 0, rx = 0, ry = 0;
+        document.addEventListener('mousemove', e => {
+            mx = e.clientX; my = e.clientY;
+            cursor.style.left = mx + 'px';
+            cursor.style.top = my + 'px';
+        });
+        function animRing() {
+            rx += (mx - rx) * 0.12;
+            ry += (my - ry) * 0.12;
+            ring.style.left = rx + 'px';
+            ring.style.top = ry + 'px';
+            requestAnimationFrame(animRing);
+        }
+        animRing();
+
+        // PROGRESS BAR
+        const bar = document.getElementById('progressBar');
+        window.addEventListener('scroll', () => {
+            const s = document.documentElement.scrollTop;
+            const h = document.documentElement.scrollHeight - window.innerHeight;
+            bar.style.transform = `scaleX(${s / h})`;
+        });
+
+        // SCROLL REVEAL
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(e => {
+                if (e.isIntersecting) {
+                    e.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.reveal, .tl-item, .dialog-block').forEach(el => {
+            observer.observe(el);
+        });
+
+        // TABS
+        function showTab(id) {
+            document.querySelectorAll('.sonetto-panel').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        // STAGGER TL ITEMS
+        const tlObs = new IntersectionObserver((entries) => {
+            entries.forEach((e, i) => {
+                if (e.isIntersecting) {
+                    setTimeout(() => e.target.classList.add('visible'), i * 80);
+                }
+            });
+        }, { threshold: 0.05 });
+        document.querySelectorAll('.tl-item').forEach(el => tlObs.observe(el));
+
+        const dlgObs = new IntersectionObserver((entries) => {
+            entries.forEach((e, i) => {
+                if (e.isIntersecting) {
+                    setTimeout(() => e.target.classList.add('visible'), i * 150);
+                }
+            });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.dialog-block').forEach(el => dlgObs.observe(el));
+    </script>
+</body>
+
+</html>
