@@ -1278,19 +1278,131 @@
         /* MOBILE */
         @media (max-width: 768px) {
             nav {
-                padding: 1rem 1.5rem;
+                padding: .8rem 1.2rem;
+            }
+
+            .nav-logo {
+                font-size: .65rem;
             }
 
             .nav-links {
                 display: none;
             }
 
+            /* HERO */
+            #hero {
+                padding: 5rem 1.2rem 3rem;
+                min-height: auto;
+            }
+
             .hero-inner {
                 grid-template-columns: 1fr;
+                gap: 2rem;
             }
 
             .hero-right {
                 display: none;
+            }
+
+            .hero-title {
+                font-size: clamp(2rem, 8vw, 2.8rem);
+            }
+
+            .hero-subtitle {
+                font-size: .95rem;
+            }
+
+            .hero-cta {
+                padding: .7rem 1.5rem;
+                font-size: .65rem;
+            }
+
+            /* SECTIONS */
+            .section-wrap {
+                padding: 3rem 1.2rem;
+            }
+
+            .section-title {
+                font-size: clamp(1.5rem, 6vw, 2rem);
+                margin-bottom: 2rem;
+            }
+
+            /* BIOGRAPHY */
+            .bio-intro {
+                font-size: 1rem;
+                padding-left: 1rem;
+            }
+
+            .tl-item {
+                grid-template-columns: 80px 1fr;
+                gap: .8rem;
+                padding: 1.5rem 0 1.5rem 1.5rem;
+            }
+
+            .tl-year {
+                font-size: .72rem;
+            }
+
+            .tl-content h3 {
+                font-size: 1rem;
+            }
+
+            .tl-content p {
+                font-size: .9rem;
+            }
+
+            /* OPERE */
+            .opere-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .opera-card {
+                padding: 1.5rem;
+            }
+
+            /* SECRETUM */
+            .secretum-glass {
+                padding: 1.5rem;
+            }
+
+            .dialog-block {
+                grid-template-columns: 1fr;
+                gap: .5rem;
+            }
+
+            .dialog-speaker {
+                border-right: none;
+                border-bottom: 1px solid var(--border);
+                padding-right: 0;
+                padding-bottom: .4rem;
+            }
+
+            .secretum-analysis {
+                padding: 1.2rem;
+            }
+
+            /* CANZONIERE */
+            .canzoniere-intro {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .canzoniere-stats {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .sonetto-tabs {
+                -webkit-overflow-scrolling: touch;
+                scrollbar-width: none;
+            }
+
+            .sonetto-tabs::-webkit-scrollbar {
+                display: none;
+            }
+
+            .tab-btn {
+                padding: .7rem 1rem;
+                font-size: .6rem;
             }
 
             .sonetto-body {
@@ -1300,35 +1412,30 @@
             .sonetto-col {
                 border-right: none;
                 border-bottom: 1px solid var(--border);
+                padding: 1.5rem 1.2rem;
             }
 
-            .canzoniere-intro {
-                grid-template-columns: 1fr;
+            .sonetto-col:last-child {
+                border-bottom: none;
             }
 
-            .duo-grid {
-                grid-template-columns: 1fr;
+            .sonetto-header {
+                padding: 1.2rem;
+                flex-direction: column;
+                gap: .3rem;
             }
 
-            .ventoso-grid {
-                grid-template-columns: 1fr;
+            .sonetto-title {
+                font-size: 1.15rem;
             }
 
-            .eredita-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .tl-item {
-                grid-template-columns: 90px 1fr;
-                gap: 1rem;
-            }
-
-            .section-wrap {
-                padding: 4rem 1.2rem;
-            }
-
+            /* STRUTTURA SONETTO */
             .struttura-grid {
                 grid-template-columns: 1fr;
+            }
+
+            .struttura-part {
+                padding: 1.5rem;
             }
 
             .volta-divider {
@@ -1349,8 +1456,98 @@
                 padding: 0 .8rem;
             }
 
+            .volta-note {
+                padding: 1.2rem;
+            }
+
+            /* LABOR LIMAE */
             .labor-block {
                 grid-template-columns: 1fr;
+            }
+
+            .labor-card {
+                padding: 1.5rem;
+            }
+
+            /* MONTE VENTOSO */
+            .ventoso-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .ventoso-bg {
+                font-size: 6rem;
+                right: -20px;
+            }
+
+            .ventoso-quote {
+                font-size: 1.1rem;
+                padding-left: 1.2rem;
+            }
+
+            .vstep {
+                padding: 1rem;
+            }
+
+            /* BOCCACCIO */
+            .duo-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .duo-card {
+                padding: 1.5rem;
+            }
+
+            .duo-name {
+                font-size: 1.4rem;
+            }
+
+            .duo-item {
+                grid-template-columns: 80px 1fr;
+                gap: .5rem;
+            }
+
+            /* CONFRONTO TABLE → scrollable */
+            .confronto-table {
+                display: block;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                margin-top: 2rem;
+            }
+
+            .confronto-table th,
+            .confronto-table td {
+                min-width: 140px;
+                font-size: .82rem;
+                padding: .8rem .6rem;
+            }
+
+            .confronto-table td:first-child {
+                min-width: 90px;
+                font-size: .9rem;
+            }
+
+            /* EREDITÀ */
+            .eredita-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .eredita-card {
+                padding: 1.5rem;
+            }
+
+            .eredita-quote {
+                font-size: clamp(1rem, 4vw, 1.3rem);
+            }
+
+            /* FOOTER */
+            footer {
+                flex-direction: column;
+                gap: .5rem;
+                text-align: center;
+                padding: 1.5rem 1.2rem;
             }
         }
     </style>
